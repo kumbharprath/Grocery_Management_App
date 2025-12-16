@@ -1,7 +1,6 @@
 package com.pdk.grocerymanagement.services;
 
 import com.pdk.grocerymanagement.dtos.CustomerDto;
-import com.pdk.grocerymanagement.entities.CustomerEntity;
 
 import java.util.List;
 

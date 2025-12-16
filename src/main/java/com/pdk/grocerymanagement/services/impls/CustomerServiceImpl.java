@@ -5,19 +5,17 @@ import com.pdk.grocerymanagement.entities.CustomerEntity;
 import com.pdk.grocerymanagement.mapper.CustomerMapper;
 import com.pdk.grocerymanagement.repositories.CustomerRepository;
 import com.pdk.grocerymanagement.services.CustomerService;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
 
     public final CustomerRepository customerRepository;
-
-    public CustomerServiceImpl(CustomerRepository customerRepository) {
-        this.customerRepository = customerRepository;
-    }
 
     @Override
     public CustomerDto createCustomer(CustomerDto customerDto) {
@@ -28,21 +26,38 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerDto getCustomerById(Long id) {
-        return null;
+        CustomerEntity customerEntity = customerRepository.findById(id)
+                                        .orElseThrow(() ->
+                                                new RuntimeException("Customer not found with id: " + id)
+                                        );
+        return CustomerMapper.mapToCustomerDto(customerEntity);
     }
 
     @Override
     public List<CustomerDto> getAllCustomers() {
-        return List.of();
+        return customerRepository.findAll()
+                .stream()
+                .map(CustomerMapper::mapToCustomerDto)
+                .toList();
     }
 
     @Override
-    public CustomerDto updateCustomer(Long id, CustomerDto customerDTO) {
-        return null;
+    public CustomerDto updateCustomer(Long id, CustomerDto customerDto) {
+        CustomerEntity existingCustomer = customerRepository.findById(id)
+                                        .orElseThrow(() ->
+                                                new RuntimeException("Customer not found with id: " + id)
+                                        );
+        CustomerMapper.updateEntity(customerDto, existingCustomer);
+        CustomerEntity updatedCustomer = customerRepository.save(existingCustomer);
+        return CustomerMapper.mapToCustomerDto(updatedCustomer);
     }
 
     @Override
     public void deleteCustomer(Long id) {
-
+        CustomerEntity existingCustomer = customerRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Customer not found with id: " + id)
+                );
+        customerRepository.delete(existingCustomer);
     }
 }

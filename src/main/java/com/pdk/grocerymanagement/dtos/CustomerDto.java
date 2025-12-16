@@ -2,8 +2,8 @@ package com.pdk.grocerymanagement.dtos;
 
 import lombok.*;
 
-@Getter
-@Setter
+
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

@@ -31,4 +31,15 @@ public class CustomerMapper {
                 .phone(customerDto.getPhone())
                 .build();
     }
+
+    public static void updateEntity(CustomerDto dto, CustomerEntity customer) {
+        if (dto == null || customer == null) {
+            return;
+        }
+
+        customer.setName(dto.getName());
+        customer.setEmail(dto.getEmail());
+        customer.setAddress(dto.getAddress());
+        customer.setPhone(dto.getPhone());
+    }
 }

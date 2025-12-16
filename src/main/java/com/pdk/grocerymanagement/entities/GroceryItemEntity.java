@@ -1,14 +1,14 @@
 package com.pdk.grocerymanagement.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
 @Table(name = "grocery_items")
 @Builder
 @NoArgsConstructor
